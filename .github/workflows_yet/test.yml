@@ -1,0 +1,46 @@
+# Usage: pull_requestにtestを行い、testとapproveされた後でしかmergeできないようにする。
+name: Cantabile-UI Jest Test.
+
+on:
+  # 以下のブランチにpull_requestが送られるとtestを実行する
+  pull_request:
+    branches:
+      - main
+      - develop
+    # 指定したファイルの変更だけでは実行しない
+    paths-ignore:
+      - "*.md"
+      - "*.yml"
+      - "docs/**"
+      - ".vscode/**"
+      - ".github/**"
+jobs:
+  cantabile-jest-test:
+    runs-on: ubuntu-18.04
+
+    defaults:
+      run:
+        working-directory: cantabile-ui
+
+    # 上から順に実行される
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.refs }}
+
+      # node環境を整備するためgithub製 actionを使用
+      - name: Setup Node.
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14.17.0"
+          cache: "yarn"
+          cache-dependency-path: cantabile-ui/yarn.lock
+
+      # node package install
+      - name: Node Package install.
+        run: yarn install
+
+      # testを実行する
+      - name: Jest Test.
+        run: yarn jest

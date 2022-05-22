@@ -1,0 +1,8 @@
+#!/bin/bash
+# docker file内で必要パッケージをインスールするスクリプト
+# https://qiita.com/watawuwu/items/d547d0cb1ab1db5e079c
+# RustでAlpineからHTTPS
+
+set -eux
+
+apk --no-cache add ca-certificates

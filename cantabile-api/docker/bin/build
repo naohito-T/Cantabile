@@ -1,0 +1,10 @@
+#!/bin/bash
+# @see https://qiita.com/keitean/items/83c7d0d6221ec1b9c63c
+set -eux
+
+# golang クロスコンパイル対応（現在は無効にしている？）
+export CGO_ENABLED=0
+export GOOS=linux
+# export GOARCH=amd64
+
+go build -o main cmd/api/main.go && chmod +x ./main

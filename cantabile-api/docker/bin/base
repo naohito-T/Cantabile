@@ -1,0 +1,6 @@
+#!/bin/bash
+set -eux
+
+# go mod tidy && go install github.com/cosmtrek/air
+go mod download
+go get -u github.com/cosmtrek/air

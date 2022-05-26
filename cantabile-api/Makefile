@@ -10,7 +10,7 @@ B := \e[34m
 N := \e[0m
 
 start:
-	docker-compose down && docker-compose up -d
+	docker-compose down && docker-compose up
 
 # Dockerfileを更新した際にbuildしてください
 build:

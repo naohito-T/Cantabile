@@ -1,13 +1,18 @@
-version: "3"
+version: "3.4"
 services: 
-  api: # サービスの名前(プレフィックスにディレクトリ名が入る)
+  app: # サービスの名前(プレフィックスにディレクトリ名が入る)
     build:
-      context: .
-    tty: true
+      context: ./
+      dockerfile: ./docker/app/Dockerfile
+      target: base
+    # tty: true
+    # docker-composeで指定するcommandはDockerfileよりも優先される
+    command: "air -c .air.toml"
     ports:
       - 1323:1323
     volumes:
-      - .:/go/src/api
+      # 現在のディレクトリをマウントする
+       - .:/app/go/base
     depends_on:
       - redis
   redis:

@@ -1,9 +1,11 @@
 # Usage: pull_requestにtestを行い、testとapproveされた後でしかmergeできないようにする。
-name: Cantabile-UI Jest Test.
+name: Cantabile-UI Lint Test.
 
 on:
   # 以下のブランチにpull_requestが送られるとtestを実行する
   pull_request:
+    paths:
+      - cantabile-ui/**
     branches:
       - main
       - develop
@@ -15,7 +17,7 @@ on:
       - ".vscode/**"
       - ".github/**"
 jobs:
-  cantabile-jest-test:
+  cantabile-lint-test:
     runs-on: ubuntu-18.04
 
     defaults:
@@ -42,5 +44,5 @@ jobs:
         run: yarn install
 
       # testを実行する
-      - name: Jest Test.
-        run: yarn jest
+      - name: Lint Test.
+        run: yarn lint

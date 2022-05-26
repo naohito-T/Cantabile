@@ -7,5 +7,4 @@ export CGO_ENABLED=0
 export GOOS=linux
 # export GOARCH=amd64
 
-go install github.com/cosmtrek/air
 go build -o main cmd/api/main.go && chmod +x ./main

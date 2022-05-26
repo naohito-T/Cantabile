@@ -1,0 +1,39 @@
+version: "3.4"
+services: 
+  app: # サービスの名前(プレフィックスにディレクトリ名が入る)
+    build:
+      context: ./cantabile-api
+      dockerfile: ./docker/app/Dockerfile
+      target: base
+    # tty: true
+    # docker-composeで指定するcommandはDockerfileよりも優先される
+    command: "air -c .air.toml"
+    ports:
+      - 1323:1323
+    volumes:
+       - ./cantabile-api:/app/go/base
+    depends_on:
+      - redis
+      # - db
+  # db:
+  #   image: mysql:5.7
+  #   command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
+  #   ports:
+  #     - ${MYSQL_PORT-3306}:3306
+  #   environment:
+  #     MYSQL_DATABASE: cuculus
+  #     MYSQL_ROOT_PASSWORD: password
+  nginx:
+    # container_name: "nginx"
+    build:
+      context: ./cantabile-server
+      dockerfile: ./Dockerfile
+    ports:
+      - "80:80"
+    # volumes:
+    #    - ./cantabile-server:/server
+    depends_on:
+      - "app"
+
+  redis:
+    image: redis:6.2.6

@@ -9,12 +9,12 @@ G := \e[32m
 B := \e[34m
 N := \e[0m
 
-start:
-	docker-compose down && docker-compose up
+# start:
+# 	docker-compose down && docker-compose up
 
-# Dockerfileを更新した際にbuildしてください
-build:
-	docker-compose build $(SERVICE)
+# # Dockerfileを更新した際にbuildしてください
+# build:
+# 	docker-compose build $(SERVICE)
 
-down:
-	docker-compose down
+# down:
+# 	docker-compose down

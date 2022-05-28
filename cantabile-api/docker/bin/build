@@ -1,6 +1,6 @@
 #!/bin/bash
 # @see https://qiita.com/keitean/items/83c7d0d6221ec1b9c63c
-set -eux
+set -euox pipefail
 
 # golang クロスコンパイル対応（現在は無効にしている？）
 export CGO_ENABLED=0

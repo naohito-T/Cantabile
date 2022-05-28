@@ -1,0 +1,75 @@
+#!/bin/bash
+set -euox pipefail
+
+source ./colors.txt
+
+function load-key() {
+  if [ ! -e env/$stage/.key ]; then
+    echo "Key not found." >&2 && exit 1
+  fi
+
+  cat env/$stage/.key
+}
+
+function change-working-directory() {
+  pushd $PWD >/dev/null
+  cd $(git rev-parse --show-toplevel)/env
+}
+
+function back-to-base-directory() {
+  popd >/dev/null
+}
+
+function encrypt() {
+  change-working-directory
+
+  openssl aes-256-cbc -md md5 -e -in env/$1/.env -pass pass:$(load-key) | base64 >env/$1/.env.encrypted
+
+  back-to-base-directory
+}
+
+function decrypt() {
+  change-working-directory
+
+  cat env/$1/.env.encrypted | base64 -d | openssl aes-256-cbc -md md5 -d -out env/$1/.env -pass pass:$(load-key)
+  ln -sf env/$1/.env .env
+
+  back-to-base-directory
+}
+
+function main() {
+  command=${1-decrypt}
+
+  stage=${2-local}
+
+  case $command in
+  encrypt)
+    encrypt $stage
+    ;;
+  decrypt)
+    decrypt $stage
+    ;;
+  help)
+    echo "Usage:"
+    echo "  $ ./envtool decrypt local   # env/local/.env.encyrpted を復号して env/local/.env を作成します。"
+    echo "                              # さらにプロジェクトルートに .env の symlink を作成します。"
+    echo "  $ ./envtool decrypt dev"
+    echo "  $ ./envtool decrypt stg"
+    echo "  $ ./envtool decrypt prd"
+    echo "  $ ./envtool encrypt local   # env/local/.env を暗号化して env/local/.env.encyrpted を更新します。"
+    echo "  $ ./envtool encrypt dev"
+    echo "  $ ./envtool encrypt stg"
+    echo "  $ ./envtool encrypt prd"
+    echo "  $ ./envtool decrypt         # これは ./envtool decrypt local と同じです。"
+    echo "  $ ./envtool                 # これは ./envtool decrypt local と同じです。"
+    echo "  $ ./envtool encrypt         # これは ./envtool encrypt local と同じです。"
+    echo "  $ ./envtool help            # このヘルプを表示します。"
+    ;;
+  *)
+    echo "Unknown command." >&2 && exit 1
+    ;;
+  esac
+}
+
+main $@
+

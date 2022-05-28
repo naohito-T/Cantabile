@@ -8,6 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// redisを分ける
 func main() {
 	e := echo.New() // echo を利用する
 	// GET リクエストでパスが `/` のとき第２引数の関数を実行する

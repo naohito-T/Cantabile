@@ -14,7 +14,6 @@ COPY . .
 
 FROM golang:1.17.6 as builder
 WORKDIR /app/go/builder
-# COPY . /app/go/builder
 
 COPY --from=base /app/go/base /app/go/builder
 # RUN chmod +x ./docker/bin/build && ./docker/bin/build

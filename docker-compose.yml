@@ -1,25 +1,24 @@
 version: "3.4"
 services: 
-
   db:
     image: mysql:5.7
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
     ports:
-      - 3306:3306
+      - ${MYSQL_PORT-33306}:3306
     environment:
       MYSQL_DATABASE: cantabile
       MYSQL_USER: user
       MYSQL_ROOT_USER: root
       MYSQL_ROOT_PASSWORD: password
     volumes:
-      # 永続化するときにマウントするディレクトリ
-      - ./cantabile-db/data:/var/lib/mysql
-      - ./cantabile-db/my.cnf:/etc/mysql/conf.d/my.cnf
-
+      # 以下は、mysql-dataをコンテナ内の/var/lib/mysqlにマウント（共有化）する
+      - mysql-data:/var/lib/mysql
   redis:
-    image: redis:6.2.6
-    depends_on:
-      - db
-
+    image: redis:6.2-alpine
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-data:/data
   app: # サービスの名前(プレフィックスにディレクトリ名が入る)
     build:
       context: ./cantabile-api
@@ -46,3 +45,10 @@ services:
     #    - ./cantabile-server:/server
     depends_on:
       - "app"
+
+# 名ありボリューム
+# 複数のコンテナでボリュームを共有できる。
+# コンテナを削除しても消えない（コンテナに依存しない）
+volumes:
+  mysql-data: {}
+  redis-data: {}

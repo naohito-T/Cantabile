@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS users;
+
+DROP TABLE IF EXISTS personas;
+
+DROP TABLE IF EXISTS authority;

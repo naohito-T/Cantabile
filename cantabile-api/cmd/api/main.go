@@ -1,11 +1,16 @@
 package main
 
+// https://sourjp.github.io/posts/go-import/
+
 import (
 	"fmt"
 	"net/http"
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/labstack/echo/v4"
+
+	// appError "github.com/naohito-T/Cantabile/cantabile-api/pkg/lib/error"
+	_ "github.com/naohito-T/Cantabile/cantabile-api/configs"
 )
 
 // redisを分ける

@@ -12,6 +12,11 @@ Cantabile project Documents.
 ```sh
 .
 ├── cantabile-api     # アプリケーションサーバ
+├── cantabile-infra   # インフラ
 ├── cantabile-server  # Webサーバ
 └── cantabile-ui      # フロント
 ```
+
+## envについて
+
+ルートディレクトリにある、envについてはdocker-compose用

@@ -1,6 +1,14 @@
 #!/bin/bash
-set -eux
+set -euox pipefail
 
 # go mod tidy && go install github.com/cosmtrek/air
-go mod download
-go get -u github.com/cosmtrek/air
+go mod tidy
+# go getはgo.modを編集するためだけの機能
+# go get -u github.com/cosmtrek/air
+# これもインストールで良いのでは？
+go install github.com/cosmtrek/air@latest
+# go get -tags 'mysql' -u github.com/golang-migrate/migrate/cmd/migrate
+# 下デカすぎる
+# cantabile_app                 latest       13be3835dc53   11 minutes ago   4.43GB
+# go get -tags 'mysql' -u github.com/golang-migrate/migrate/v4/cmd/migrate/
+go install -tags 'mysql' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.15.2

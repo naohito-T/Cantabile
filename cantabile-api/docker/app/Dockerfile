@@ -1,7 +1,7 @@
 # これはビルダーパターンと呼ばれていて、コンパイルする環境と実行する環境を分ける Dockerfile のパターン
 # ADD: リモートからもファイル追加できる。圧縮ファイルが自動解凍される
 # COPY: リモートからのファイル追加は出来ない。圧縮ファイルは自動解凍されない
-FROM golang:1.17.6 as base
+FROM golang:1.18 as base
 
 # ディレクトリが存在しない場合は作成されるのか？
 WORKDIR /app/go/base
@@ -12,11 +12,12 @@ COPY ./docker/bin/base ./
 RUN chmod +x ./base && ./base
 COPY . .
 
-FROM golang:1.17.6 as builder
+FROM golang:1.18 as builder
 WORKDIR /app/go/builder
 
 COPY --from=base /app/go/base /app/go/builder
 # RUN chmod +x ./docker/bin/build && ./docker/bin/build
+# https://hatappi.blog/entry/2017/11/23/204211
 RUN CGO_ENABLED=0 go build cmd/app/main.go
 
 FROM alpine:3.15 as production

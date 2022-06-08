@@ -46,3 +46,7 @@ dbでマイグレーションを叩く？ init スクリプト
 アプリケーション層で、最初にマイグレーションを実行する
 
 `$ migrate -path cantabile-api/migrations -database "mysql://root:password@tcp(127.0.0.1:33306)/cantabile" force 20220602073412`
+
+## gormをしようする
+
+https://gorm.io/ja_JP/docs/index.html

@@ -5,10 +5,16 @@ import (
 )
 
 var Global Configs
+var DBConfig DBConfigs
 
 type AppConfigs struct{}
 
 type DBConfigs struct {
+	DBHost string `envconfig:"DB_HOST"`
+	DBPort int    `envconfig:"DB_PORT"`
+	DBUser string `envconfig:"DB_USER"`
+	DBPass string `envconfig:"DB_PASS"`
+	DBName string `envconfig:"DB_NAME"`
 }
 
 type Configs struct {
@@ -32,4 +38,25 @@ type StatusCodeError struct {
 
 func init() {
 	envconfig.MustProcess("", &Global)
+	envconfig.MustProcess("", &DBConfig)
+}
+
+
+func env() {
+	switch (envconfig.) {
+	case 'local':
+	  return Environment.Local;
+	case 'development':
+	  return Environment.Develpoment;
+	case 'staging':
+	  return Environment.Staging;
+	case 'production':
+	  return Environment.Production;
+	case 'job':
+	  return Environment.Job;
+	case 'test':
+	  return Environment.Test;
+	default:
+	  return Environment.None;
+  }	
 }

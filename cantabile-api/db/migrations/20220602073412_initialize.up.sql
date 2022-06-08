@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS user (
     name varchar(255) NOT NULL comment 'userの名前（上下一緒）',
     age int NOT NULL DEFAULT 20 comment '年齢',
     sex enum ('0', '1', '2') NOT NULL DEFAULT '0' comment '1: man 2: woman',
+    email varchar(255) UNIQUE NOT NULL comment 'email',
     business varchar(255) comment '職業',
     annual_salary varchar(255) comment '年収',
     image_url varchar(255) comment 'プロフィール画像',

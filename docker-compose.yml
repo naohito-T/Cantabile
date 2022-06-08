@@ -3,6 +3,12 @@ services:
   db:
     # image: mysql:5.7
     image: mysql:8.0.21
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
     ports:
       - ${MYSQL_PORT-33306}:3306
@@ -17,11 +23,14 @@ services:
       - mysql-data:/var/lib/mysql
   redis:
     image: redis:6.2-alpine
+    restart: always
     ports:
       - 6379:6379
     volumes:
       - redis-data:/data
-  app: # サービスの名前(プレフィックスにディレクトリ名が入る)
+
+  app:
+    restart: always
     build:
       context: ./cantabile-api
       dockerfile: ./docker/app/Dockerfile
@@ -33,11 +42,13 @@ services:
     volumes:
       - ./cantabile-api:/app/go/base
     depends_on:
-      - redis
-      - db
+      redis:
+        condition: service_started
+      db:
+        condition: service_healthy
 
   nginx:
-    # container_name: "nginx"
+    restart: always
     build:
       context: ./cantabile-server
       dockerfile: ./Dockerfile

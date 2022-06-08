@@ -1,6 +1,4 @@
-package main
-
-// https://sourjp.github.io/posts/go-import/
+package router
 
 import (
 	"fmt"
@@ -8,13 +6,10 @@ import (
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/labstack/echo/v4"
-
-	// appError "github.com/naohito-T/Cantabile/cantabile-api/pkg/lib/error"
-	_ "github.com/naohito-T/Cantabile/cantabile-api/configs"
 )
 
-// redisを分ける
-func main() {
+/* loginしていない router */
+func HomeRouter() {
 	e := echo.New() // echo を利用する
 	// GET リクエストでパスが `/` のとき第２引数の関数を実行する
 	e.GET("/", func(c echo.Context) error {

@@ -42,6 +42,7 @@ MYSQL_DBNAME ?= cantabile
 setup:
 	which migrate || brew install golang-migrate
 
+# マイグレーションファイルを作成する
 migration.create: setup
 	@printf '${B}%s\n' "# Migration file create.";\
 	cd cantabile-api &&\
@@ -92,6 +93,8 @@ down:
 	@printf '${R}%s\n' "# Cantabile project down.";\
 	docker-compose down
 
+
+# 関数
 _log: $(message)
 	printf '${B}%s\n' "$(message)";\
 

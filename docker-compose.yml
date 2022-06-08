@@ -1,14 +1,16 @@
 version: "3.4"
 services: 
   db:
-    image: mysql:5.7
+    # image: mysql:5.7
+    image: mysql:8.0.21
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
     ports:
       - ${MYSQL_PORT-33306}:3306
     environment:
       MYSQL_DATABASE: cantabile
       MYSQL_USER: user
-      MYSQL_ROOT_USER: root
+      MYSQL_PASSWORD: password
+      AMYSQL_ROOT_USER: root
       MYSQL_ROOT_PASSWORD: password
     volumes:
       # 以下は、mysql-dataをコンテナ内の/var/lib/mysqlにマウント（共有化）する

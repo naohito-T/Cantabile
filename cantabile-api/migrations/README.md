@@ -23,3 +23,8 @@
 1500360784_initialize_schema.up.sql
 1500445949_add_table.down.sql
 1500445949_add_table.up.sql
+
+## DB想定
+
+パスワード認証した際に、user_authにpasswordが記載される。
+そのidを元にuserてーbル「に書き込みデフォルトuserを作成する。
